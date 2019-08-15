@@ -3,5 +3,6 @@ from . import views
 
 urlpatterns = [
     re_path(r'^$', views.home),
-    re_path(r'^list', views.list),
+    re_path(r'^results', views.results),
+    re_path(r'^mentions', views.mentions),
 ]

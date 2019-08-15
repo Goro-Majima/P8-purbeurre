@@ -41,10 +41,10 @@
             <input class="form-control mr-sm-2" type="search" size = 15 placeholder="Entrez un aliment" aria-label="Search">
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#portfolio">Mon compte</a>
+            <a class="nav-link js-scroll-trigger" href="#"><img class="logo-small" src="{% static 'img/logo_pur_beurre.png' %}" alt=""></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#">Mes aliments</a>
+            <a class="nav-link js-scroll-trigger" href="#"><img class="logo-small" src="{% static 'img/logo_pur_beurre.png' %}" alt=""></a>
           </li>
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
@@ -59,7 +59,8 @@
   <!-- Footer -->
   <footer class="bg-light py-5">
     <div class="container">
-      <div class="small text-center text-muted">Copyright &copy; 2019 - Ly Mickael</div>
+      <!-- <a href="{% url 'grocery/mentions.html'}">Mentions légales</a> -->
+      <div class="small text-center text-muted"><a href="mentions">Mentions légales</a> &copy; 2019 - Ly Mickael</div>
     </div>
   </footer>
 
