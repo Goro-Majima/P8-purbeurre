@@ -31,7 +31,7 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
     <div class="container">
-      <a class="navbar-brand js-scroll-trigger" href="#page-top"><img class="logo-small" src="{% static 'img/logo_pur_beurre.png' %}" alt=""> Pur Beurre</a>
+      <a class="navbar-brand js-scroll-trigger" href='{% url "home" %}'><img class="logo-small" src="{% static 'img/logo_pur_beurre.png' %}" alt=""> Pur Beurre</a>
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -41,10 +41,10 @@
             <input class="form-control mr-sm-2" type="search" size = 15 placeholder="Entrez un aliment" aria-label="Search">
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#"><img class="logo-small" src="{% static 'img/logo_pur_beurre.png' %}" alt=""></a>
+            <a class="nav-link js-scroll-trigger" href="#"><img class="logo-small" src="{% static 'img/user.png' %}" alt="">Se connecter</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#"><img class="logo-small" src="{% static 'img/logo_pur_beurre.png' %}" alt=""></a>
+            <a class="nav-link js-scroll-trigger" href="#"><img class="logo-small" src="{% static 'img/carrot.png' %}" alt="">mes aliments</a>
           </li>
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
@@ -60,7 +60,7 @@
   <footer class="bg-light py-5">
     <div class="container">
       <!-- <a href="{% url 'grocery/mentions.html'}">Mentions légales</a> -->
-      <div class="small text-center text-muted"><a href="mentions">Mentions légales</a> &copy; 2019 - Ly Mickael</div>
+      <div class="small text-center text-muted"><a href="{% url 'mentions' %}">Mentions légales</a> &copy; 2019 - Ly Mickael</div>
     </div>
   </footer>
 
