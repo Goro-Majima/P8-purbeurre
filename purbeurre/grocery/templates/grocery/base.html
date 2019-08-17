@@ -42,7 +42,7 @@
           </li>
           {% if user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="{% url 'profile' %}"><i class="fa fa-user-circle" aria-hidden="true"></i> profile</a>
+            <a class="nav-link js-scroll-trigger" href="{% url 'profile' %}"><i class="fa fa-user-circle" aria-hidden="true"></i></a>
           </li>
           {%  else %}
           <li class="nav-item">
@@ -51,16 +51,17 @@
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="{% url 'login' %}"><i class="fa fa-user-circle" aria-hidden="true"></i> Connexion</a>
           </li>
-          {% endif %}
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="{% url 'home' %}#contact">Contact</a>
           </li>
+          {% endif %}
+          
           {% if user.is_authenticated %}
           <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="{% url 'results' %}"><i class="fa fa-archive" aria-hidden="true"></i> mes favoris</a>
+              <a class="nav-link js-scroll-trigger" href="{% url 'results' %}"><i class="fa fa-archive" aria-hidden="true"></i></a>
             </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="{% url 'logout' %}"><i class="fa fa-user-circle" aria-hidden="true"></i> déconnexion</a>
+            <a class="nav-link js-scroll-trigger" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt" aria-hidden="true"></i></a>
           </li>
           {% endif %}
         </ul>
