@@ -41,10 +41,10 @@
             <input class="form-control mr-sm-2" type="search" size = 15 placeholder="Entrez un aliment" aria-label="Search">
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#"><i class="fa fa-user-circle" aria-hidden="true"></i> Se connecter</a>
+            <a class="nav-link js-scroll-trigger" href="{% url 'register' %}"><i class="fa fa-user-circle" aria-hidden="true"></i> S'inscrire</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#"><i class="fa fa-archive" aria-hidden="true"></i> mes aliments</a>
+            <a class="nav-link js-scroll-trigger" href="{% url 'results' %}"><i class="fa fa-archive" aria-hidden="true"></i> mes aliments</a>
           </li>
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
@@ -53,7 +53,13 @@
       </div>
     </div>
   </nav>
-  
+  {% if messages %}
+    {%  for message in messages %}
+      <div class='alert alert-{{ message.tags }}'>
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
   {% block content %} {% endblock %}
   
   <!-- Footer -->

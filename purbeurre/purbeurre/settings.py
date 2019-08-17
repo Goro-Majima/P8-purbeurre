@@ -38,7 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-    'user.apps.UserConfig',
+    'django_extensions',
+    'debug_toolbar',
+
+    'users.apps.UsersConfig',
+    'crispy_forms',
     'grocery.apps.GroceryConfig',
 ]
 
@@ -50,6 +54,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'purbeurre.urls'
@@ -76,23 +82,23 @@ WSGI_APPLICATION = 'purbeurre.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql', # on utilise l'adaptateur postgresql
-        'NAME': '', # le nom de notre base de données créée précédemment
-        'USER': 'postgres', # attention : remplacez par votre nom d'utilisateur !!
-        'PASSWORD': 'Lyteemo5',
-        'HOST': '',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql', # on utilise l'adaptateur postgresql
+#         'NAME': '', # le nom de notre base de données créée précédemment
+#         'USER': 'postgres', # attention : remplacez par votre nom d'utilisateur !!
+#         'PASSWORD': 'Lyteemo5',
+#         'HOST': '',
+#         'PORT': '5432',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -131,4 +137,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+INTERNAL_IPS = ['127.0.0.1']
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
