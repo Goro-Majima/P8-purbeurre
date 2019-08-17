@@ -1,0 +1,14 @@
+{% extends 'grocery/base.html' %}
+
+{% load static %}
+
+{% block content %} 
+<header class="masthead">
+    <h2>Vous êtes deconnecté</h2>
+    <div class="border-top pt-3">
+        <small class="text-muted">
+            <a class="ml-2" href="{% url 'login' %}">Se reconnecter</a>
+        </small>
+    </div>
+</header>
+{% endblock %}
