@@ -5,8 +5,8 @@ from django.contrib.auth.forms import UserCreationForm
 class UserRegisterForm(UserCreationForm):
     username = forms.CharField(label='Login')
     email = forms.EmailField()
-    password1 = forms.CharField(label='Mot de passe')
-    password2 = forms.CharField(label='Confirmation mot de passe')
+    password1 = forms.CharField(widget=forms.PasswordInput, label='Mot de passe')
+    password2 = forms.CharField(widget=forms.PasswordInput, label='Confirmation mot de passe')
     
     def __init__(self, *args, **kwargs):
         super(UserRegisterForm, self).__init__(*args, **kwargs)
