@@ -10,8 +10,8 @@
               <h1 class="text-lowercase text-white font-weight-bold">{{product_name}}</h1>
               <img src="{{ product_image }}" alt="{{product_name}}" class='img-responsive'>
               <img src="{{ product_nutrient }}" alt="Répères nutrionnels pour 100g" class='img-responsive'>
-              <p>{{ product_nutrigrade }}</p>
-              <p>{{ product_url }}</p>
+              <p style="color: ghostwhite">Nutrigrade: {{ product_nutrigrade }}</p>
+              <a style="color: ghostwhite" href="{{ product_url }}">En savoir plus</a>
               <hr class="divider my-4">
             </div>            
           </div>
@@ -23,26 +23,26 @@
     <div class="container">
         <h2 class="text-center mt-0">Vous pouvez remplacer cet aliment par:</h2>
         <hr class="divider my-4">
-        <div class="row">           
-            <div class="col-lg-4 col-md-6 text-center">
-                <div class="mt-5">    
-                    <img class="sr-icons img-about" src="{{ product_image }}" alt="">
-                    <h3 class="h4 mb-2">{{ product_nutrigrade }}</h3>
-                    <h3 class="h4 mb-2">{{ product_name }}</h3>
-                    <!-- <p class="text-muted mb-0">{{ product_url }}</p> -->
-                </div>
-            </div>                               
+        
+        <div class="row">
+        {% if sub_list|length_is:"0" %}
+            <div class="text-center">
+                <h3 class="text-center mt-0">Aucun substitut avec un meilleur nutrigrade, ce que vous prenez est bon pour la santé !</h3>
+            </div>
+        {% else %}
+            {% for substitute in sub_list %}
+        <div class="col-lg-4 col-md-6 text-center">
+            <div class="mt-5">    
+                <img class="sr-icons img-about" src="{{ substitute.image }}" alt="">
+                <h3 class="h4 mb-2">{{ substitute.name }}</h3>
+                <h3 class="h4 mb-2">{{ substitute.nutrigrade }}</h3>
+                <a style="color: rgb(20, 20, 20)" href="{{ substitute.url }}">En savoir plus</a>
+            </div>
         </div>
-        <div class="row">           
-            <div class="col-lg-4 col-md-6 text-center">
-                <div class="mt-5">    
-                    <img class="sr-icons img-about" src="{{ product_image }}" alt="">
-                    <h3 class="h4 mb-2">{{ product_nutrigrade }}</h3>
-                    <h3 class="h4 mb-2">{{ product_name }}</h3>
-                    <p class="text-muted mb-0">{{ product_url }}</p>
-                </div>
-            </div>                               
-        </div>
+            {% if forloop.counter|divisibleby:3 %}<div class="clearfix"></div>{% endif %}
+            {% endfor %}
+        {% endif %}                   
+        </div>                                                  
     </div>
 </section>
 {% endblock %}

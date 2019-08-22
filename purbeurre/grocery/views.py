@@ -10,13 +10,19 @@ def results(request):
     if request.method == 'GET':
         text = request.GET.get('txtSearch')
         product = Product.objects.filter(name__startswith=text).first()
+        if product.nutrigrade == 'a':
+            substitute_list =[]
+        else:
+            substitute_list = Product.objects.filter(category= product.category, nutrigrade='a')        
         context = {
             'product_name': product.name,
             'product_image': product.image,
             'product_nutrigrade': product.nutrigrade,
             'product_nutrient': product.nutrient,
             'product_url': product.url,
+            'sub_list': substitute_list
         }
+
     return render(request, 'grocery/results.html', context)
 
 def mentions(request):
