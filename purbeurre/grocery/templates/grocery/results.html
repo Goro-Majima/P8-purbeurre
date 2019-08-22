@@ -8,7 +8,6 @@
         <div class="row h-50 align-items-center justify-content-center text-center">
             <div class="col-lg-10 align-self-end">
               <h1 class="text-lowercase text-white font-weight-bold">{{product_name}}</h1>
-              <body background="{{ product_image }}"></body>
               <img src="{{ product_image }}" alt="{{product_name}}" class='img-responsive'>
               <img src="{{ product_nutrient }}" alt="Répères nutrionnels pour 100g" class='img-responsive'>
               <p>{{ product_nutrigrade }}</p>
@@ -24,16 +23,25 @@
     <div class="container">
         <h2 class="text-center mt-0">Vous pouvez remplacer cet aliment par:</h2>
         <hr class="divider my-4">
-        <div class="row">
-            {% for categ in Category %}
+        <div class="row">           
             <div class="col-lg-4 col-md-6 text-center">
                 <div class="mt-5">    
-                    <img class="sr-icons img-about" src="{% static 'img/colette.png' %}" alt="">
-                    <h3 class="h4 mb-2">Colette Tatou</h3>
-                    <p class="text-muted mb-0">Nom aliment</p>
+                    <img class="sr-icons img-about" src="{{ product_image }}" alt="">
+                    <h3 class="h4 mb-2">{{ product_nutrigrade }}</h3>
+                    <h3 class="h4 mb-2">{{ product_name }}</h3>
+                    <!-- <p class="text-muted mb-0">{{ product_url }}</p> -->
                 </div>
-            </div> 
-            {% endfor %}                              
+            </div>                               
+        </div>
+        <div class="row">           
+            <div class="col-lg-4 col-md-6 text-center">
+                <div class="mt-5">    
+                    <img class="sr-icons img-about" src="{{ product_image }}" alt="">
+                    <h3 class="h4 mb-2">{{ product_nutrigrade }}</h3>
+                    <h3 class="h4 mb-2">{{ product_name }}</h3>
+                    <p class="text-muted mb-0">{{ product_url }}</p>
+                </div>
+            </div>                               
         </div>
     </div>
 </section>
