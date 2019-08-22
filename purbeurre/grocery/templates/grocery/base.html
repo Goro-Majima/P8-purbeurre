@@ -18,9 +18,14 @@
   <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet">
   <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
 
+  <!-- Plugin JQUERY -->
+  
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
+
+
   <!-- Plugin CSS -->
   <link href="{% static 'vendor/magnific-popup/magnific-popup.css' %}" rel="stylesheet">
-
+  
   <!-- Theme CSS - Includes Bootstrap -->
   <link href="{% static 'css/creative.min.css' %}" rel="stylesheet">
 
@@ -38,7 +43,10 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto my-2 my-lg-0">
           <li class="nav-item">
-            <input class="form-control mr-sm-2" type="search" size = 15 placeholder="Entrez un aliment" aria-label="Search">
+            <form class="input-group input-group-lg mb-3" id="search" method="GET" action="{% url 'results' %}">
+                {% csrf_token %}
+                <input class="form-control mr-sm-2" id="txtSearch2" name="txtSearch2" type="search" size = 15 placeholder="Entrez un aliment" aria-label="Search">
+            </form>
           </li>
           {% if user.is_authenticated %}
           <li class="nav-item">
@@ -74,22 +82,37 @@
   <!-- Footer -->
   <footer class="bg-light py-5">
     <div class="container">
-      <!-- <a href="{% url 'grocery/mentions.html'}">Mentions légales</a> -->
       <div class="small text-center text-muted"><a href="{% url 'mentions' %}">Mentions légales</a> &copy; 2019 - Ly Mickael</div>
     </div>
   </footer>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"> </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
-   <!-- Bootstrap core JavaScript -->
-   <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
-   <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <!-- Plugin JavaScript -->
+  <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+  <script src="{% static 'vendor/magnific-popup/jquery.magnific-popup.min.js' %}"></script>
 
-   <!-- Plugin JavaScript -->
-   <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
-   <script src="{% static 'vendor/magnific-popup/jquery.magnific-popup.min.js' %}"></script>
-
-   <!-- Custom scripts for this template -->
-   <script src="{% static 'js/creative.min.js' %}"></script>
-
+  <!-- Custom scripts for this template -->
+  <script src="{% static 'js/creative.min.js' %}"></script>
+  <script>
+      var $jq = jQuery.noConflict();
+      $(document).ready(function(){ 
+          
+          $("#txtSearch").autocomplete({
+              source: "grocery/ajax_calls/search/",
+              minLength: 2,
+              open: function(){
+                  setTimeout(function () {
+                      $('.ui-autocomplete').css('z-index', 99);
+                  }, 0);
+              }
+            });
+      });
+    </script>
 </body>
 
 </html>
