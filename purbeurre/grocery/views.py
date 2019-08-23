@@ -44,6 +44,9 @@ def results(request):
 def detail(request):
     return render(request, 'grocery/detail.html')
 
+def favorites(request):
+    return render(request, 'grocery/favorites.html')
+
 def mentions(request):
     return render(request, 'grocery/mentions.html')
 
