@@ -35,8 +35,7 @@
                 <div class="mt-5"> 
                     <a href="{% url 'detail' %}">
                         <img class="sr-icons img-about"  src="{{ substitute.image }}" alt="">
-                    </a>   
-                    
+                    </a>                    
                     <h3 class="h4 mb-2">{{ substitute.name }}</h3>
                     
                     <a style="color: rgb(20, 20, 20)" href="{{ substitute.url }}">En savoir plus</a>
@@ -52,10 +51,10 @@
   <nav aria-label="">
     <ul class="pager">
       {% if sub_list.has_previous %}
-          <li><a href="?page={{ sub_list.previous_page_number }}">Précédent</a></li>
+          <li><a href="?page={{ sub_list.previous_page_number }}&txtSearch={{ text }}">Précédent</a></li>
       {% endif %}
       {% if sub_list.has_next %}
-          <li><a href="?page={{ sub_list.next_page_number }}">Suivant</a></li>
+          <li><a href="?page={{ sub_list.next_page_number }}&txtSearch={{ text }}">Suivant</a></li>
       {% endif %}
     </ul>
   </nav>
