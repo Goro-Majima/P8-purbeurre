@@ -2,6 +2,7 @@ import urllib
 import json
 
 from django.http import HttpResponse
+from django.db.models import Q
 from django.shortcuts import render
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from grocery.models import Category, Product
@@ -17,7 +18,12 @@ def results(request):
         if product.nutrigrade == 'a':
             substitute_list =[]
         else:
-            substitute_queries= Product.objects.filter(category= product.category, nutrigrade='a')
+            if product.nutrigrade == 'b':
+                substitute_queries= Product.objects.filter(category= product.category, nutrigrade='a')
+            elif product.nutrigrade == 'c':
+                substitute_queries= Product.objects.filter(Q(category= product.category, nutrigrade='a') | Q(category= product.category, nutrigrade='b'))
+            else:
+                substitute_queries= Product.objects.filter(Q(category= product.category, nutrigrade='a') | Q(category= product.category, nutrigrade='b') | Q(category= product.category, nutrigrade='c'))
             print(substitute_queries)
             paginator = Paginator(substitute_queries, 6) 
             page = request.GET.get('page')
