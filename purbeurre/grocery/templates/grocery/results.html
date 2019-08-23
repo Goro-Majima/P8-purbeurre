@@ -27,22 +27,40 @@
         <div class="row">
         {% if sub_list|length_is:"0" %}
             <div class="text-center">
-                <h3 class="text-center mt-0">Aucun substitut avec un meilleur nutrigrade, ce que vous prenez est bon pour la santé !</h3>
+                <h3 class="text-center mt-0">Aucun substitut avec un meilleur nutrigrade, cet aliment est bon pour la santé !</h3>
             </div>
         {% else %}
             {% for substitute in sub_list %}
-        <div class="col-lg-4 col-md-6 text-center">
-            <div class="mt-5">    
-                <img class="sr-icons img-about" src="{{ substitute.image }}" alt="">
-                <h3 class="h4 mb-2">{{ substitute.name }}</h3>
-                <h3 class="h4 mb-2">{{ substitute.nutrigrade }}</h3>
-                <a style="color: rgb(20, 20, 20)" href="{{ substitute.url }}">En savoir plus</a>
+            <div class="col-lg-4 col-md-6 text-center">
+                <div class="mt-5"> 
+                    <a href="{% url 'detail' %}">
+                        <img class="sr-icons img-about"  src="{{ substitute.image }}" alt="">
+                    </a>   
+                    
+                    <h3 class="h4 mb-2">{{ substitute.name }}</h3>
+                    
+                    <a style="color: rgb(20, 20, 20)" href="{{ substitute.url }}">En savoir plus</a>
+                </div>
             </div>
-        </div>
             {% if forloop.counter|divisibleby:3 %}<div class="clearfix"></div>{% endif %}
             {% endfor %}
-        {% endif %}                   
+        {% endif %}                 
         </div>                                                  
     </div>
+{% if paginate %}
+  <div class="clearfix"></div>
+  <nav aria-label="">
+    <ul class="pager">
+      {% if sub_list.has_previous %}
+          <li><a href="?page={{ sub_list.previous_page_number }}">Précédent</a></li>
+      {% endif %}
+      {% if sub_list.has_next %}
+          <li><a href="?page={{ sub_list.next_page_number }}">Suivant</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+{% endif %}
 </section>
+
+
 {% endblock %}

@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from grocery.models import Category, Product
 import json
 
@@ -13,17 +14,30 @@ def results(request):
         if product.nutrigrade == 'a':
             substitute_list =[]
         else:
-            substitute_list = Product.objects.filter(category= product.category, nutrigrade='a')        
+            substitute_queries= Product.objects.filter(category= product.category, nutrigrade='a')
+            paginator = Paginator(substitute_queries, 6) 
+            page = request.GET.get('page')
+            try:
+                substitute_list = paginator.page(page)
+            except PageNotAnInteger:
+                substitute_list = paginator.page(1)
+            except EmptyPage:
+                # If page is out of range (e.g. 9999), deliver last page of results.
+                substitute_list = paginator.page(paginator.num_pages)
         context = {
             'product_name': product.name,
             'product_image': product.image,
             'product_nutrigrade': product.nutrigrade,
             'product_nutrient': product.nutrient,
             'product_url': product.url,
-            'sub_list': substitute_list
+            'sub_list': substitute_list,
+            'paginate': True
         }
 
     return render(request, 'grocery/results.html', context)
+
+def detail(request):
+    return render(request, 'grocery/detail.html')
 
 def mentions(request):
     return render(request, 'grocery/mentions.html')
