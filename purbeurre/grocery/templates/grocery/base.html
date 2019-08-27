@@ -45,7 +45,7 @@
           <li class="nav-item">
             <form class="input-group input-group-lg mb-3" id="search" method="GET" action="{% url 'results' %}">
                 {% csrf_token %}
-                <input class="form-control mr-sm-2" id="txtSearch2" name="txtSearch2" type="search" size = 15 placeholder="Entrez un aliment" aria-label="Search">
+                <input class="txtSearch" id="txtSearch" name="txtSearch" type="search" size = 15 placeholder="Entrez un aliment" aria-label="Search">
             </form>
           </li>
           {% if user.is_authenticated %}
@@ -102,8 +102,8 @@
       var $jq = jQuery.noConflict();
       $(document).ready(function(){ 
           
-          $("#txtSearch").autocomplete({
-              source: "grocery/ajax_calls/search/",
+          $(".txtSearch").autocomplete({
+              source: "ajax_calls/search/",
               minLength: 2,
               open: function(){
                   setTimeout(function () {
