@@ -3,5 +3,19 @@
 {% load static %}
 
 {% block content %}
-
+<header class="masthead">
+    <div class="container h-10">
+        <div class="row h-50 align-items-center justify-content-center text-center">
+            <div class="col-lg-10 align-self-end">
+                <h1 class="text-lowercase text-white font-weight-bold">{{substitute_name}}</h1>
+                <img src="{{ substitute_image }}" alt="{{product_name}}" class='img-responsive'>
+                <img src="{{ substitute_nutrient }}" alt="Répères nutrionnels pour 100g" class='img-responsive'>
+                <p style="color: ghostwhite">Nutrigrade: {{ substitute_nutrigrade }}</p>
+                {{ substitute_id}}
+                <a style="color: ghostwhite" href="{{ substitute_url }}">En savoir plus</a>
+                <hr class="divider my-4">
+            </div>            
+        </div>
+    </div>
+</header>
 {% endblock %}

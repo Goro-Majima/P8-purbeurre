@@ -33,7 +33,7 @@
             {% for substitute in sub_list %}
             <div class="col-lg-4 col-md-6 text-center">
                 <div class="mt-5"> 
-                    <a href="{% url 'detail' %}">
+                    <a href="{% url 'detail' substitute_id=substitute.id %}">
                         <img class="sr-icons img-about"  src="{{ substitute.image }}" alt="">
                     </a>                    
                     <h3 class="h4 mb-2">{{ substitute.name }}</h3>

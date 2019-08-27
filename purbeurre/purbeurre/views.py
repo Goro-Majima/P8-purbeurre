@@ -5,7 +5,7 @@ import json
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from grocery.models import Category, Product
 
 
@@ -28,7 +28,6 @@ def results(request):
                 substitute_queries= Product.objects.filter(Q(category= product.category, nutrigrade='a') | Q(category= product.category, nutrigrade='b'))
             else:
                 substitute_queries= Product.objects.filter(Q(category= product.category, nutrigrade='a') | Q(category= product.category, nutrigrade='b') | Q(category= product.category, nutrigrade='c'))
-            print(substitute_queries)
             paginator = Paginator(substitute_queries, 6) 
             page = request.GET.get('page')
             try:
@@ -48,11 +47,22 @@ def results(request):
             'paginate': True,
             'text':urllib.parse.quote_plus(text)
         }
-
     return render(request, 'grocery/results.html', context)
 
-def detail(request):
-    return render(request, 'grocery/detail.html')
+def detail(request, substitute_id):
+    substitute = Product.objects.get(id=substitute_id)
+    context = {
+        'substitute_name': substitute.name,
+        'substitute_image': substitute.image,
+        'substitute_nutrigrade': substitute.nutrigrade,
+        'substitute_nutrient': substitute.nutrient,
+        'substitute_url': substitute.url,
+        'substitute_id': substitute.id,
+    }
+    return render(request, 'grocery/detail.html', context)
+
+# def detail(request):
+#     return render(request, 'grocery/detail.html')
 
 def favorites(request):
     return render(request, 'grocery/favorites.html')
