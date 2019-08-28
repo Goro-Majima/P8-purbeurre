@@ -16,7 +16,7 @@
           <p class="text-white-75 font-weight-light mb-5">Trouvez un produit de substitution pour ceux que vous consommez tous les jours</p>
           <form class="input-group input-group-lg mb-3" id="search" method="GET" action="{% url 'results' %}">
               {% csrf_token %}
-            <input  class="txtSearch" id="txtSearch" name="txtSearch" type="text" placeholder="Tapez l'aliment à substituer" aria-label="Search">
+            <input  class="txtSearch form-control" id="txtSearch" name="txtSearch" type="text" placeholder="Tapez l'aliment à substituer" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Chercher</button>
           </form>
         </div>
