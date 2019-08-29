@@ -5,9 +5,10 @@ import json
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from grocery.models import Category, Product
-
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 def homepage(request):
     return render(request, 'grocery/home.html')
@@ -64,8 +65,10 @@ def detail(request, substitute_id):
 # def detail(request):
 #     return render(request, 'grocery/detail.html')
 
-def favorites(request):
-    return render(request, 'grocery/favorites.html')
+@login_required
+def favorite(request):
+    return render(request, 'grocery/favorite.html')
+
 
 def mentions(request):
     return render(request, 'grocery/mentions.html')

@@ -29,7 +29,7 @@ urlpatterns = [
     re_path(r'^results', views.results, name='results'),
     re_path(r'^detail/(?P<substitute_id>\w+)/$', views.detail, name='detail'),
     re_path(r'^mentions', views.mentions, name='mentions'),
-    re_path(r'^favorites', views.favorites, name='favorites'),
+    re_path(r'^favorite', views.favorite, name='favorite'),
     re_path(r'^ajax_calls/search/', views.autocompleteModel),
     re_path(r'^register/', user_views.register, name='register'),
     re_path(r'^profile/', user_views.profile, name='profile'),
