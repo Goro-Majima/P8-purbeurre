@@ -9,7 +9,7 @@
     font-size:40px; 
     color:#fff; 
     text-align:center; 
-    background:mediumslateblue;
+    background:rgb(160, 150, 219);
     width: 40px;
     position:absolute;
     top:0; 
@@ -19,17 +19,29 @@
     <div class="container h-10">
         <div class="row h-50 align-items-center justify-content-center text-center">
             <div class="col-lg-10 align-self-end">
-              <h1 class="text-lowercase text-white font-weight-bold">{{product_name}}</h1>
-              <div class="imagewrap" style="display:inline-block;position:relative;">
-                <img style="height: 350px; width: 350px; border-radius:25px" src="{{ product_image }}" alt="{{product_name}}" class='img-responsive'>
-                <p class=circle>{{ product_nutrigrade }}</p>                                
-              </div>
-              <img style="height: 350px; width: 350px; border-radius:25px" src="{{ product_nutrient }}" alt="Répères nutrionnels pour 100g" class='img-responsive'>
-              <p style="color: ghostwhite" href="{{ product_url }}">En savoir plus</p>
-              <hr class="divider my-4">
+                <h1 class="text-uppercase text-white font-weight-bold">Aliment cherché:</h1>
+                <h1 class="text-lowercase text-white font-weight-bold">{{product_name}}</h1>
+                <div class="imagewrap" style="display:inline-block;position:relative;">
+                    <img style="height: 350px; width: 350px; border-radius:25px" src="{{ product_image }}" alt="{{product_name}}" class='img-responsive'>
+                    <p class=circle>{{ product_nutrigrade }}</p>                                
+                </div>
+                
+              <!-- <img style="height: 350px; width: 350px; border-radius:25px" src="{{ product_nutrient }}" alt="Répères nutrionnels pour 100g" class='img-responsive'> -->
+              {% if user.is_authenticated %}
+                <form method='POST'>
+                {% csrf_token %}
+                    <div class="form-group">
+                        </br>
+                        <a type="submit"><i class="far fa-save"></i> sauvegarder</a>
+                    </div>
+                </form>
+                {% endif %}
+                </br>
+                <p><a style="color: ghostwhite" href="{{ product_url }}">En savoir plus</a></p>
+                <hr class="divider my-4">
             </div>            
-          </div>
         </div>
+    </div>
 </header>
 
 <!-- Services Section -->
