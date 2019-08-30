@@ -74,20 +74,30 @@ def favorite(request, user_name):
 
         favorite = Favorite.objects.create(product=myproduct, user=request.user)
         favorite.save()
+        messages.success(request, f'Ce produit a été ajouté à vos favoris !')    
     addfavorite = Favorite.objects.filter(user=request.user)
-    paginator = Paginator(addfavorite, 6) 
-    page = request.GET.get('page')
-    try:
-        addedfavorite = paginator.page(page)
-    except PageNotAnInteger:
-        addedfavorite = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        addedfavorite = paginator.page(paginator.num_pages)
-    context = {
-        'added_favorite': addedfavorite
-    }
+    print(addfavorite)
+    if addfavorite != []:
+        paginator = Paginator(addfavorite, 6) 
+        page = request.GET.get('page')
+        try:
+            addedfavorite = paginator.page(page)
+        except PageNotAnInteger:
+            addedfavorite = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            addedfavorite = paginator.page(paginator.num_pages)
+        context = {
+            'paginate': True,
+            'added_favorite': addedfavorite
+        }
+    else:
+        context = {
+            'added_favorite': addfavorite
+        }
     return render(request, 'grocery/favorite.html', context)
+   
+
     
     # addfavorite = Favorite.objects.filter(user=request.user)
     # paginator = Paginator(addfavorite, 6) 

@@ -27,6 +27,11 @@
 <section class="page-section" id="services">
     <div class="container">        
         <div class="row">
+            {% if added_favorite|length_is:"0" %}
+            <div class="text-center">
+                <h3 class="text-center mt-0">Aucun favori </h3>
+            </div>
+            {% else %}
             {% for favorite in added_favorite %}
             <div class="col-lg-4 col-md-6 text-center">
                     <div class="mt-5"> 
@@ -41,7 +46,8 @@
                     </div>
             </div>
             {% if forloop.counter|divisibleby:3 %}<div class="clearfix"></div>{% endif %}
-            {% endfor %}                       
+            {% endfor %}  
+            {% endif %}                     
         </div>                                                  
     </div>
 </section>
@@ -51,10 +57,10 @@
     <nav aria-label="">
         <ul class="pager">
         {% if added_favorite.has_previous %}
-            <li><a href="?page={{ added_favorite.previous_page_number }}&user={{ user_name }}">Précédent</a></li>
+            <li><a href="?page={{ added_favorite.previous_page_number }}">Précédent</a></li>
         {% endif %}
         {% if added_favorite.has_next %}
-            <li><a href="?page={{ added_favorite.next_page_number }}&user={{ user_name }}">Suivant</a></li>
+            <li><a href="?page={{ added_favorite.next_page_number }}">Suivant</a></li>
         {% endif %}
         </ul>
     </nav>
