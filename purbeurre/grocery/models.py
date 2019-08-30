@@ -18,9 +18,6 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
-class Favorites(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+class Favorite(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, default="")
-
-    def __str__(self):
-        return self.User + " " + self.product

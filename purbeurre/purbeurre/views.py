@@ -6,9 +6,10 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from grocery.models import Category, Product
+from grocery.models import Category, Product, Favorite
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 def homepage(request):
     return render(request, 'grocery/home.html')
@@ -66,8 +67,43 @@ def detail(request, substitute_id):
 #     return render(request, 'grocery/detail.html')
 
 @login_required
-def favorite(request):
-    return render(request, 'grocery/favorite.html')
+def favorite(request, user_name):
+    if request.method == 'POST':
+        product = request.POST.get('substitute')
+        myproduct = Product.objects.get(id=product)
+
+        favorite = Favorite.objects.create(product=myproduct, user=request.user)
+        favorite.save()
+    addfavorite = Favorite.objects.filter(user=request.user)
+    paginator = Paginator(addfavorite, 6) 
+    page = request.GET.get('page')
+    try:
+        addedfavorite = paginator.page(page)
+    except PageNotAnInteger:
+        addedfavorite = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        addedfavorite = paginator.page(paginator.num_pages)
+    context = {
+        'added_favorite': addedfavorite
+    }
+    return render(request, 'grocery/favorite.html', context)
+    
+    # addfavorite = Favorite.objects.filter(user=request.user)
+    # paginator = Paginator(addfavorite, 6) 
+    # page = request.GET.get('page')
+    # try:
+    #     addedfavorite = paginator.page(page)
+    # except PageNotAnInteger:
+    #     addedfavorite = paginator.page(1)
+    # except EmptyPage:
+    #     # If page is out of range (e.g. 9999), deliver last page of results.
+    #     addedfavorite = paginator.page(paginator.num_pages)
+    # context = {
+    #         'added_favorite': addedfavorite
+    #     }
+    # return render(request, 'grocery/favorite.html', context)
+    
 
 
 def mentions(request):
@@ -87,9 +123,10 @@ def autocompleteModel(request):
     mimetype = 'application/json'
     return HttpResponse(data, mimetype)
 
+
+
 def handler404(request):
     return render(request, '404.html', status=404)
-
 
 def handler500(request):
     return render(request, '500.html', status=500)
