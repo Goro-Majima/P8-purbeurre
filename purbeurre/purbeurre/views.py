@@ -45,6 +45,7 @@ def results(request):
             'product_nutrigrade': product.nutrigrade,
             'product_nutrient': product.nutrient,
             'product_url': product.url,
+            'product_id': product.id,
             'sub_list': substitute_list,
             'paginate': True,
             'text':urllib.parse.quote_plus(text)
@@ -52,7 +53,10 @@ def results(request):
     return render(request, 'grocery/results.html', context)
 
 def detail(request, substitute_id):
-    substitute = Product.objects.get(id=substitute_id)
+    try:
+        substitute = Product.objects.get(id=substitute_id)
+    except:
+        substitute = Product.objects.get(id=product_id)
     context = {
         'substitute_name': substitute.name,
         'substitute_image': substitute.image,
@@ -71,12 +75,14 @@ def favorite(request, user_name):
     if request.method == 'POST':
         product = request.POST.get('substitute')
         myproduct = Product.objects.get(id=product)
-
-        favorite = Favorite.objects.create(product=myproduct, user=request.user)
-        favorite.save()
-        messages.success(request, f'Ce produit a été ajouté à vos favoris !')    
+        favorite = Favorite.objects.filter(product=myproduct, user=request.user)
+        if favorite.exists():
+            messages.success(request, f'Ce produit est déjà dans vos favoris !') 
+        else:
+            favorite = Favorite.objects.create(product=myproduct, user=request.user)
+            favorite.save()
+            messages.success(request, f'Ce produit a été ajouté à vos favoris !')    
     addfavorite = Favorite.objects.filter(user=request.user)
-    print(addfavorite)
     if addfavorite != []:
         paginator = Paginator(addfavorite, 6) 
         page = request.GET.get('page')

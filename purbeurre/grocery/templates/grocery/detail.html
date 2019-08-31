@@ -11,10 +11,11 @@
                 <img style="height: 250px; width: 250px; border-radius:25px" src="{{ substitute_image }}" alt="{{product_name}}" class='img-responsive'>
 
                 {% if user.is_authenticated %}
-                <form method='POST'>
+                <form method='POST' action="{% url 'favorite' user_name=user.id %}">
                 {% csrf_token %}
                     <div class="form-group">
                         </br>
+                        <input type="hidden" name="substitute" value="{{ substitute_id }}">
                         <button class="btn btn-outline-info" type="submit"><i class="far fa-save fa-2x"> Sauvegarder</i></button>
                     </div>
                 </form>
