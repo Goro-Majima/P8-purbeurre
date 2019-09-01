@@ -54,9 +54,11 @@ def results(request):
 
 def detail(request, substitute_id):
     try:
-        substitute = Product.objects.get(id=substitute_id)
+        # substitute = Product.objects.get(id=substitute_id)
+        substitute = get_object_or_404(Product, pk=substitute_id)
     except:
-        substitute = Product.objects.get(id=product_id)
+        # substitute = Product.objects.get(id=product_id)
+        substitute = get_object_or_404(Product, pk=product_id)
     context = {
         'substitute_name': substitute.name,
         'substitute_image': substitute.image,
@@ -66,9 +68,6 @@ def detail(request, substitute_id):
         'substitute_id': substitute.id,
     }
     return render(request, 'grocery/detail.html', context)
-
-# def detail(request):
-#     return render(request, 'grocery/detail.html')
 
 @login_required
 def favorite(request, user_name):
