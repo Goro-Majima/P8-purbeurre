@@ -37,7 +37,7 @@
                     <div class="mt-5"> 
                         <div class="imagewrap" style="display:inline-block;position:relative;">
                             <a href="{% url 'detail' substitute_id=favorite.product.id %}">    
-                            <img style="height: 250px; width: 250px; border-radius:25px;" class="sr-icons img-about"  src="{{ favorite.product.image }}" alt="">
+                            <img style="height: 250px; width: 250px; border-radius:25px; object-fit: cover;" class="sr-icons img-about"  src="{{ favorite.product.image }}" alt="">
                             <p class= circle>{{ favorite.product.nutrigrade }}</p>
                             </a>
                         </div>                    

@@ -22,7 +22,7 @@
                 <h2 class="text-uppercase text-white font-weight-bold">Aliment cherché:</h2>
                 <h3 class="text-lowercase text-white font-weight-bold">{{product_name}}</h3>
                 <div class="imagewrap" style="display:inline-block;position:relative;">
-                        <a href="{% url 'detail' product_id %}"><img style="height: 250px; width: 250px; border-radius:25px" src="{{ product_image }}" alt="{{product_name}}" class='img-responsive'></a>
+                        <a href="{% url 'detail' product_id %}"><img style="height: 250px; width: 250px; border-radius:25px; object-fit: cover;" src="{{ product_image }}" alt="{{product_name}}" class='img-responsive'></a>
                     <p class=circle>{{ product_nutrigrade }}</p>                                
                 </div>
                 
@@ -62,7 +62,7 @@
                     <div class="imagewrap" style="display:inline-block;position:relative;">
                         <a href="{% url 'detail' substitute_id=substitute.id %}">
 
-                            <img style="height: 250px; width: 250px; border-radius:25px;" class="sr-icons img-about"  src="{{ substitute.image }}" alt="">
+                            <img style="height: 250px; width: 250px; border-radius:25px; object-fit: cover;" class="sr-icons img-about"  src="{{ substitute.image }}" alt="">
                             <p class= circle>{{ substitute.nutrigrade }}</p>
                         </a>
                     </div>                    

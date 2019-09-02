@@ -53,12 +53,8 @@ def results(request):
     return render(request, 'grocery/results.html', context)
 
 def detail(request, substitute_id):
-    try:
-        # substitute = Product.objects.get(id=substitute_id)
-        substitute = get_object_or_404(Product, pk=substitute_id)
-    except:
-        # substitute = Product.objects.get(id=product_id)
-        substitute = get_object_or_404(Product, pk=product_id)
+    # substitute = Product.objects.get(id=substitute_id)
+    substitute = get_object_or_404(Product, pk=substitute_id)
     context = {
         'substitute_name': substitute.name,
         'substitute_image': substitute.image,
