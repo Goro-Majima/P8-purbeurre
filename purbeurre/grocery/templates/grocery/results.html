@@ -12,8 +12,8 @@
     background:rgb(160, 150, 219);
     width: 40px;
     position:absolute;
-    top:0; 
-    right:0;}
+    top:-20px; 
+    right:-20px;}
 </style>
 <header class="masthead">
     <div class="container h-10">
@@ -22,10 +22,17 @@
                 <h2 class="text-uppercase text-white font-weight-bold">Aliment cherché:</h2>
                 <h3 class="text-lowercase text-white font-weight-bold">{{product_name}}</h3>
                 <div class="imagewrap" style="display:inline-block;position:relative;">
-                        <a href="{% url 'detail' product_id %}"><img style="height: 250px; width: 250px; border-radius:25px; object-fit: cover;" src="{{ product_image }}" alt="{{product_name}}" class='img-responsive'></a>
-                    <p class=circle>{{ product_nutrigrade }}</p>                                
+                        <a href="{% url 'detail' product_id %}"><img style="height: 250px; width: 250px; border-radius:25px; object-fit: cover;" src="{{ product_image }}" alt="{{product_name}}" class='img-responsive'></a>                               
                 </div>
-                
+                {% if product_nutrigrade == 'a' %}
+                <img style="height: 150px; width: 250px;" src="{% static 'img/nutriscore-a.png' %}" class='img-responsive'>    
+                {% elif product_nutrigrade == 'b' %}
+                <img style="height: 150px; width: 250px;" src="{% static 'img/nutriscore-b.svg.png' %}" class='img-responsive'>
+                {% elif product_nutrigrade == 'c' %}
+                <img style="height: 150px; width: 250px;" src="{% static 'img/nutriscore-c.svg.png' %}" class='img-responsive'>
+                {% elif product_nutrigrade == 'd' %}
+                <img style="height: 150px; width: 250px;" src="{% static 'img/nutriscore-d.svg.png' %}" class='img-responsive'>
+                {% endif %}
               <!-- <img style="height: 350px; width: 350px; border-radius:25px" src="{{ product_nutrient }}" alt="Répères nutrionnels pour 100g" class='img-responsive'> -->
               {% if user.is_authenticated %}
                 <form method='POST' action="{% url 'favorite' user_name=user.id %}">
@@ -61,7 +68,6 @@
                 <div class="mt-5"> 
                     <div class="imagewrap" style="display:inline-block;position:relative;">
                         <a href="{% url 'detail' substitute_id=substitute.id %}">
-
                             <img style="height: 250px; width: 250px; border-radius:25px; object-fit: cover;" class="sr-icons img-about"  src="{{ substitute.image }}" alt="">
                             <p class= circle>{{ substitute.nutrigrade }}</p>
                         </a>
