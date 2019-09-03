@@ -1,3 +1,4 @@
+#pylint: disable=C0103
 """ Database created in python that define products and user favorites"""
 from django.db import models
 from django.contrib.auth.models import User

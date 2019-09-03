@@ -1,15 +1,16 @@
+#pylint: disable=W0223, C0413, C0103
+""" Python file used once in order to populate data from OFF API """
 import os
-# import sys
-# sys.path.append('/C:/Users/Alex Tour/P8-purbeurre/')
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "purbeurre.settings")
 import requests as req
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "purbeurre.settings")
 import django
 django.setup()
-import requests as req
-from grocery.models import Category, Product
 from django.core.management.base import BaseCommand
+from grocery.models import Category, Product
+
 
 class Command(BaseCommand):
+    """ Fill categary table then use it as a foreign key in product table """
     CATEGORYNAME = [
         "Pizzas",
         "Conserves",
@@ -38,7 +39,6 @@ class Command(BaseCommand):
         categ = Category.objects.create(name=name)
         categ.save()
         print(Category.objects.all())
-        
         count = 0
         for i in range(1, 20):
             url = ("https://fr.openfoodfacts.org/category/"+ name + "/"+ str(i) + ".json")
@@ -52,8 +52,13 @@ class Command(BaseCommand):
                                 if "url" in products:
                                     if "image_nutrition_url" in products:
                                         print(categ.id)
-                                        product = Product.objects.create(name=products["product_name"], nutrigrade=products["nutrition_grade_fr"], image=products["image_url"], url=products["url"], nutrient=products["image_nutrition_url"], category=categ) 
+                                        product = Product.objects.create\
+                                            (name=products["product_name"], \
+                                            nutrigrade=products["nutrition_grade_fr"],\
+                                                 image=products["image_url"],\
+                                                 url=products["url"], \
+                                                     nutrient=products["image_nutrition_url"],\
+                                                          category=categ)
                                         product.save()
                                         count = count + 1
         idcat = idcat +1
-                        

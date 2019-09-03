@@ -1,8 +1,42 @@
+#pylint: disable=C0103, W0612
 """ Python testing file checking each page returns the correct response"""
 from django.test import TestCase
 from django.urls import reverse
 # from django.contrib.auth.models import User
 from grocery.models import Category, Product
+
+class DataFilledTestCase(TestCase):
+    def test_product_filled(self):
+        CATEGORYNAME = [
+        "Pizzas",
+        "Conserves",
+        "Fromages",
+        "Boissons",
+        "Snacks sucrés",
+        "Viandes",
+        "Charcuteries",
+        "Epicerie",
+        "Desserts",
+        "Surgelés",
+        "Sauces",
+        "Biscuits",
+        "Chocolats",
+        "Gâteaux",
+        "Confitures",
+        "Apéritif",
+        "Condiments",
+        "Yaourts",
+        "Pains",
+        "Huiles",
+    ]
+        for name in CATEGORYNAME:
+            categ = Category.objects.create(name=name)
+
+        categ = Category.objects.get(name='Confitures')
+        product = Product.objects.create(name='nutella', nutrigrade='a', image='url.htt',\
+        url='url.htt', nutrient='url.htt', category=categ)
+        products = Product.objects.all()
+        self.assertTrue(products.exists)
 
 # Homepage
 class IndexPageTestCase(TestCase):
@@ -10,6 +44,28 @@ class IndexPageTestCase(TestCase):
     def test_index_page(self):
         """ Test that the function returns the home page with response 200 """
         response = self.client.get(reverse('homepage'))
+        self.assertEqual(response.status_code, 200)
+
+# Mention page
+class MentionPageTestCase(TestCase):
+    """ Class Test that the function returns the mention page with response 200 """
+    def test_mention_page(self):
+        """ Test that the function returns the mention page with response 200 """
+        response = self.client.get(reverse('mentions'))
+        self.assertEqual(response.status_code, 200)
+
+# results page
+class ResultsPageTestCase(TestCase):
+    """ Class Test that the function returns the results page with response 200 """
+    def setUp(self):
+        categ = Category.objects.create(name='pate')
+        product = Product.objects.create(name='nutella', nutrigrade='a', image='url.htt',\
+        url='url.htt', nutrient='url.htt', category=categ)
+        self.product = Product.objects.get(name='nutella')
+    def test_results_page(self):
+        """ Test that the function returns the results page with response 200 """
+        product = self.product.name
+        response = self.client.get(reverse('results', args=(product,)))
         self.assertEqual(response.status_code, 200)
 
 # Detail page
@@ -34,9 +90,3 @@ class DetailPageTestCase(TestCase):
         product = self.product.id + 1000
         response = self.client.get(reverse('detail', args=(product,)))
         self.assertEqual(response.status_code, 404)
-
-# # favorite page
-# class FavoritePageTestCase(TestCase):
-
-#     def setUp(self):
-#         User =
