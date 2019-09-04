@@ -1,1 +1,1 @@
-web: gunicorn purbeurre.wsgi
+web: cd purbeurre && gunicorn purbeurre.wsgi
