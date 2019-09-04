@@ -1,1 +1,6 @@
 .vscode
+
+env/
+purbeurre/__pycache__
+grocery/__pycache__
+grocery/migrations/__pycache__
