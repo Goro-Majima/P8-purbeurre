@@ -1,7 +1,8 @@
 .vscode
 htmlcov
 .pylintrc
-
+.coverage
+.coveragerc
 venv
 purbeurre/__pycache__
 grocery/__pycache__
