@@ -30,7 +30,7 @@ else:
     DEBUG = True
 
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['purbeurre2020.herokuapp.com']
+ALLOWED_HOSTS = ['purbeurre19.herokuapp.com']
 
 # Application definition
 
