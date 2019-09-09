@@ -6,7 +6,7 @@ import urllib
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 # from django.contrib.auth.models import User
@@ -27,7 +27,6 @@ def results(request):
         text = request.GET.get('txtSearch')
         # product = Product.objects.filter(name__startswith=text).first()
         product = Product.objects.filter(name=text).first()
-        print(product)
         if not product:
             messages.warning(request, f'veuillez effectuer une autre recherche !')
             return render(request, 'grocery/home.html')

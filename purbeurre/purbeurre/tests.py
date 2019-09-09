@@ -1,11 +1,15 @@
 #pylint: disable=C0103, W0612
 """ Python testing file checking each page returns the correct response"""
+import urllib
+
 from django.test import TestCase
+from django.test.client import Client
 from django.urls import reverse
-# from django.contrib.auth.models import User
-from grocery.models import Category, Product
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from users.models import Profile
+from grocery.models import Category, Product, Favorite
+from users.forms import UserRegisterForm
+
 
 class DataFilledTestCase(TestCase):
     """ fill Category with list """
@@ -57,21 +61,70 @@ class MentionPageTestCase(TestCase):
         response = self.client.get(reverse('mentions'))
         self.assertEqual(response.status_code, 200)
 
-# # results page
-# class ResultsPageTestCase(TestCase):
-#     """ Class Test that the function returns the results page with response 200 """
-#     def setUp(self):
-#         categ = Category.objects.create(name='pate')
-#         product = Product.objects.create(name='nutella', nutrigrade='a', image='url.htt',\
-#         url='url.htt', nutrient='url.htt', category=categ)
-#         self.product = Product.objects.get(name='nutella')
-#     def test_results_page(self):
-#         """ Test that the function returns the results page with response 200 """
-#         product = self.product.name
-#         response = self.client.get(reverse('results', args=(product,)))
-#         self.assertEqual(response.status_code, 200)
+class LoginTestCase(TestCase):
+    """ Class make sure the user is redirected to the homepage after login """
+    def setUp(self):
+        self.client = Client()
+        self.user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
 
-# Detail page
+    def test_Login(self):
+        """ check status code """
+        self.client.login(username='john', password='johnpassword')
+        response = self.client.get(reverse('homepage'))
+        self.assertEqual(response.status_code, 200)
+
+class RegisterPageTestCase(TestCase):
+    """ Class test that the function returns to the home page after registration"""
+    def setUp(self):
+        self.client = Client()
+        # self.user = User.objects.create_user('john', 'lennon@thebeatles.com', 'Abracadabra0')
+
+    def test_register_page(self):
+        """ check the form """
+        form_data = {'username':'john',
+                     "email":'lennon@thebeatles.com',
+                     "password1":'Abracadabra0',
+                     'password2':'Abracadabra0'}
+        form = UserRegisterForm(data=form_data)
+        self.assertTrue(form.is_valid())
+
+    def test_not_register_page(self):
+        """ check the response status code """
+        self.user = User.objects.create_user('vic', 'vicpassword')
+        self.client.login(password='johnpassword')
+        response = self.client.get(reverse('register'))
+        self.assertEqual(response.status_code, 200)
+
+
+class ResultsPageTestcase(TestCase):
+    """ Class Test that the function returns the results page with response 200 """
+    def setUp(self):
+        categ = Category.objects.create(name='pate')
+        product = Product.objects.create(name='nutella', nutrigrade='d', image='url.htt',\
+        url='url.htt', nutrient='url.htt', category=categ)
+        substitute = Product.objects.create(name='miel', nutrigrade='a', image='url.htt',\
+        url='url.htt', nutrient='url.htt', category=categ)
+        self.product = Product.objects.get(name='nutella')
+        self.substitute = Product.objects.get(name='miel')
+        self.categ = categ
+
+    def test_query_is_valid(self):
+        """ must returns 200 """
+        prod = Product.objects.filter(name__startswith=self.product.name).first()
+        response = self.client.get(reverse('results'), {'text': 'prod'})
+        self.assertEqual(response.status_code, 200)
+
+class ProfilePageTestCase(TestCase):
+    """ Class Test that the function returns the profile page with response 200"""
+    def setUp(self):
+        self.client = Client()
+        self.user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
+    def test_profile_page(self):
+        """ check the response status code """
+        self.client.login(username='john', password='johnpassword')
+        response = self.client.get(reverse('profile'))
+        self.assertEqual(response.status_code, 200)
+
 class DetailPageTestCase(TestCase):
     """ Create an object and its instance """
     def setUp(self):
@@ -94,7 +147,29 @@ class DetailPageTestCase(TestCase):
         response = self.client.get(reverse('detail', args=(product,)))
         self.assertEqual(response.status_code, 404)
 
-class ModelTests(TestCase):
+class FavoritePageTestCase(TestCase):
+    """ Ensure an item is added to a user's favorite list"""
+    def setUp(self):
+        self.client = Client()
+        self.user = User.objects.create_user('Mickael', 'mickael@gmail.com', 'johnpassword')
+        categ = Category.objects.create(name='pate')
+        product = Product.objects.create(name='nutella', nutrigrade='a', image='url.htt',\
+        url='url.htt', nutrient='url.htt', category=categ, id=5)
+        self.user = User.objects.get(username="Mickael")
+        self.product = Product.objects.get(name='nutella')
+
+    def test_favorite_is_added(self):
+        """ Check if favorite is added """
+        self.client.login(username='Mickael', password='johnpassword')
+        response = self.client.get(reverse('favorite', args=(self.user.id, )))
+        self.assertEqual(response.status_code, 200)
+
+    def test_favorite_already_exists(self):
+        fav = Favorite.objects.create(product=self.product, user=self.user)
+        favs = Favorite.objects.filter(product=self.product, user=self.user)
+        self.assertTrue(favs.exists())
+
+class ModelTestCase(TestCase):
     """ Test string returns """
 
     def test_str_Category(self):
@@ -108,4 +183,5 @@ class ModelTests(TestCase):
         product = Product.objects.create(name="Coca", nutrigrade='a', image='url.htt',\
         url='url.htt', nutrient='url.htt', category=categ)
         self.assertIs(product.__str__(), "Coca")
+
 
