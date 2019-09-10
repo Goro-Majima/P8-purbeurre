@@ -1,7 +1,5 @@
 #pylint: disable=C0103, W0612
 """ Python testing file checking each page returns the correct response"""
-import urllib
-
 from django.test import TestCase
 from django.test.client import Client
 from django.urls import reverse
@@ -87,6 +85,9 @@ class RegisterPageTestCase(TestCase):
                      'password2':'Abracadabra0'}
         form = UserRegisterForm(data=form_data)
         self.assertTrue(form.is_valid())
+        response = self.client.post(reverse('register'), form_data)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('login'))
 
     def test_not_register_page(self):
         """ check the response status code """
@@ -165,9 +166,15 @@ class FavoritePageTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_favorite_already_exists(self):
+        """ check if a product is already in the table favorite """
         fav = Favorite.objects.create(product=self.product, user=self.user)
         favs = Favorite.objects.filter(product=self.product, user=self.user)
         self.assertTrue(favs.exists())
+
+class AutocompleteModelTestCase(TestCase):
+    """ Check the autocompletion function """
+    def 
+
 
 class ModelTestCase(TestCase):
     """ Test string returns """
