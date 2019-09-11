@@ -7,7 +7,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from grocery.models import Category, Product, Favorite
 from users.forms import UserRegisterForm
-
+from django.db.models import Q
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 class DataFilledTestCase(TestCase):
     """ fill Category with list """
@@ -75,7 +76,6 @@ class RegisterPageTestCase(TestCase):
     """ Class test that the function returns to the home page after registration"""
     def setUp(self):
         self.client = Client()
-        # self.user = User.objects.create_user('john', 'lennon@thebeatles.com', 'Abracadabra0')
 
     def test_register_page(self):
         """ check the form """
@@ -103,16 +103,30 @@ class ResultsPageTestcase(TestCase):
         categ = Category.objects.create(name='pate')
         product = Product.objects.create(name='nutella', nutrigrade='d', image='url.htt',\
         url='url.htt', nutrient='url.htt', category=categ)
-        substitute = Product.objects.create(name='miel', nutrigrade='a', image='url.htt',\
+        product2 = Product.objects.create(name='kiri', nutrigrade='b', image='url.htt',\
+        url='url.htt', nutrient='url.htt', category=categ)
+        product3 = Product.objects.create(name='boursin', nutrigrade='c', image='url.htt',\
+        url='url.htt', nutrient='url.htt', category=categ)
+        product4 = Product.objects.create(name='miel', nutrigrade='a', image='url.htt',\
         url='url.htt', nutrient='url.htt', category=categ)
         self.product = Product.objects.get(name='nutella')
-        self.substitute = Product.objects.get(name='miel')
         self.categ = categ
 
     def test_query_is_valid(self):
         """ must returns 200 """
         prod = Product.objects.filter(name__startswith=self.product.name).first()
         response = self.client.get(reverse('results'), {'text': 'prod'})
+        self.assertEqual(response.status_code, 200)
+
+    def test_substitute_is_better_than_product(self):
+        """ test that substitures are found if better grade in same category"""
+        product = Product.objects.filter(name__startswith=self.product.name).first()
+        sub = Product.objects.filter\
+                    (Q(category=product.category, nutrigrade='a')\
+                     | Q(category=product.category, nutrigrade='b')\
+                          | Q(category=product.category, nutrigrade='c'))
+        response = self.client.get(reverse('results'), {'txtsearch': product.name})
+        self.assertEqual(sub.count(), 3)
         self.assertEqual(response.status_code, 200)
 
 class ProfilePageTestCase(TestCase):
@@ -159,6 +173,11 @@ class FavoritePageTestCase(TestCase):
         self.user = User.objects.get(username="Mickael")
         self.product = Product.objects.get(name='nutella')
 
+    def test_no_favorite_exist(self):
+        """ test that template is returned although no favorite """
+        self.client.login(username='Mickael', password='johnpassword')
+
+
     def test_favorite_is_added(self):
         """ Check if favorite is added """
         self.client.login(username='Mickael', password='johnpassword')
@@ -167,14 +186,10 @@ class FavoritePageTestCase(TestCase):
 
     def test_favorite_already_exists(self):
         """ check if a product is already in the table favorite """
+        self.client.login(username='Mickael', password='johnpassword')
         fav = Favorite.objects.create(product=self.product, user=self.user)
         favs = Favorite.objects.filter(product=self.product, user=self.user)
         self.assertTrue(favs.exists())
-
-class AutocompleteModelTestCase(TestCase):
-    """ Check the autocompletion function """
-    def 
-
 
 class ModelTestCase(TestCase):
     """ Test string returns """
