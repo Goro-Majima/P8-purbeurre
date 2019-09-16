@@ -102,7 +102,7 @@ DATABASES = {
         'NAME': 'purbeurre', # le nom de notre base de données créée précédemment
         'USER': 'mickael', # attention : remplacez par votre nom d'utilisateur !!
         'PASSWORD': 'Lyteemo5',
-        'HOST': '',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
