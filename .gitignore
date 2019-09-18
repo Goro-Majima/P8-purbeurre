@@ -3,7 +3,6 @@ htmlcov
 .pylintrc
 .coverage
 .coveragerc
-venv
 purbeurre/__pycache__
 grocery/__pycache__
 grocery/migrations/__pycache__
