@@ -1,6 +1,7 @@
+dist: xenial
 language: python
 python:
-      - '3.6'
+      - '3.7'
 
 before_script:
       - pip install -r requirements.txt
@@ -14,4 +15,4 @@ env: DJANGO_SETTINGS_MODULE="purbeurre.settings.travis"
 services: - postgresql
 
 script:
-      - ./manage.py test
+      - python purbeurre/manage.py test
