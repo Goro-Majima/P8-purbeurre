@@ -27,7 +27,7 @@ SECRET_KEY = 'yyc2(f1h74#mrmz2@sgmy_-%b(h(=+)5^auh&o42-3jba!+5@k'
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['157.245.72.19']
+ALLOWED_HOSTS = []
 
 
 
