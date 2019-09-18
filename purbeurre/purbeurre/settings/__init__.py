@@ -24,12 +24,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'yyc2(f1h74#mrmz2@sgmy_-%b(h(=+)5^auh&o42-3jba!+5@k'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if os.environ.get('ENV') == 'PRODUCTION':
-    DEBUG = False
-    ALLOWED_HOSTS = ['purbeurre19.herokuapp.com']
-else:
-    DEBUG = True
-    ALLOWED_HOSTS = ['157.245.72.19']
+
+DEBUG = True
+
+ALLOWED_HOSTS = ['157.245.72.19']
 
 
 
@@ -101,8 +99,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', # on utilise l'adaptateur postgresql
         'NAME': 'purbeurre', # le nom de notre base de données créée précédemment
         'USER': 'mickael', # attention : remplacez par votre nom d'utilisateur !!
-        'PASSWORD': 'Lyteemo5',
-        'HOST': 'localhost',
+        'PASSWORD': '',
+        'HOST': '',
         'PORT': '5432',
     }
 }
