@@ -7,3 +7,5 @@ venv
 purbeurre/__pycache__
 grocery/__pycache__
 grocery/migrations/__pycache__
+__pycache__
+purbeurre/purbeurre/settings/production.py
