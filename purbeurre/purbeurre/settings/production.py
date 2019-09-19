@@ -1,4 +1,4 @@
-from .import *
+from . import *
 
 SECRET_KEY = "?_Xd'_H}VP[U:-^36$IoK:y\x0c"
 DEBUG = False
