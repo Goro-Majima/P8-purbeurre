@@ -14,7 +14,8 @@ import os
 import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -23,10 +24,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 SECRET_KEY = 'yyc2(f1h74#mrmz2@sgmy_-%b(h(=+)5^auh&o42-3jba!+5@k'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-
-DEBUG = True
-
-ALLOWED_HOSTS = []
+if os.environ.get('ENV') == 'PRODUCTION':
+    DEBUG = False
+    ALLOWED_HOSTS = ['purbeurre19.herokuapp.com']
+else:
+    DEBUG = True
+    ALLOWED_HOSTS = []
 
 
 
@@ -59,7 +62,7 @@ MIDDLEWARE = [
 
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 
-    # 'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'purbeurre.urls'
@@ -97,8 +100,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', # on utilise l'adaptateur postgresql
         'NAME': 'purbeurre', # le nom de notre base de données créée précédemment
-        'USER': 'mickael', # attention : remplacez par votre nom d'utilisateur !!
-        'PASSWORD': '',
+        'USER': 'postgres', # attention : remplacez par votre nom d'utilisateur !!
+        'PASSWORD': 'Lyteemo5',
         'HOST': '',
         'PORT': '5432',
     }
@@ -152,5 +155,19 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL = 'homepage'
 LOGIN_URL = 'login'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+if os.environ.get('ENV') == 'PRODUCTION':
 
+    # Static files settings
+    PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+    # Extra places for collectstatic to find static files.
+    STATICFILES_DIRS = (
+        os.path.join(PROJECT_ROOT, 'static'),
+    )
+    # Simplified static file serving.
+    # https://warehouse.python.org/project/whitenoise/
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    db_from_env = dj_database_url.config(conn_max_age=500)
+    DATABASES['default'].update(db_from_env)
